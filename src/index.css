@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 28% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 28% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 28% 12%;
+    --primary: 215 52% 24%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 18% 96%;
+    --secondary-foreground: 222 28% 16%;
+    --muted: 220 18% 96%;
+    --muted-foreground: 220 11% 45%;
+    --accent: 215 35% 95%;
+    --accent-foreground: 215 52% 22%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 15% 89%;
+    --input: 220 15% 86%;
+    --ring: 215 52% 28%;
+    --brand: 215 52% 24%;
+    --brand-foreground: 0 0% 100%;
+    --brand-soft: 215 45% 95%;
+    --radius: 0.625rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* Subtle custom scrollbars for editor panes */
+.thin-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.thin-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: hsl(220 15% 84%);
+  border-radius: 9999px;
+}
+.thin-scroll::-webkit-scrollbar-thumb:hover {
+  background: hsl(220 14% 72%);
+}
