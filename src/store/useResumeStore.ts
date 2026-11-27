@@ -176,7 +176,7 @@ export const useResumeStore = create<ResumeStore>((set, get) => {
       if (tpl.recommendedOrder && !opts?.withSample) {
         doc.data.sectionOrder = [...tpl.recommendedOrder];
       }
-      doc.name = opts?.name ?? (opts?.withSample ? `${tpl.name} (Sample)` : `${tpl.name} Resume`);
+      doc.name = opts?.name ?? tpl.name;
       doc.isPaid = false;
       doc.paidAt = null;
       const resumes = [doc, ...get().resumes];

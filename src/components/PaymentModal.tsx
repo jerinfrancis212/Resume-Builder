@@ -196,9 +196,9 @@ export function PaymentModal({ resume, onClose, onUnlocked }: PaymentModalProps)
           {/* Pricing Card */}
           <div className="rounded-xl border border-primary/20 bg-secondary/40 px-5 py-4 flex items-center justify-between">
             <div>
-              <p className="text-xs font-medium text-muted-foreground">One-time unlock for this resume</p>
+              <p className="text-xs font-medium text-muted-foreground">Download your Resume</p>
               <p className="text-[11px] text-muted-foreground/80 mt-0.5 truncate max-w-[200px]">
-                {resume?.name || 'Your Resume'}
+                {(resume?.name || 'Your Resume').replace(/\s*\(Sample\)\s*$/i, '')}
               </p>
             </div>
             <div className="text-right">
