@@ -56,31 +56,31 @@ export function TemplatePreviewModal({ template, onClose, onUseTemplate }: Templ
     <Dialog open={template !== null} onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="max-w-4xl p-0 overflow-hidden gap-0">
         {template && (
-          <div className="grid md:grid-cols-[1fr_290px] max-h-[90dvh] overflow-y-auto md:overflow-hidden">
-            {/* Left: Live rendered A4 PDF */}
-            <div className="bg-slate-100/90 p-4 sm:p-7 md:overflow-y-auto thin-scroll flex flex-col items-center gap-5 md:max-h-[90dvh]">
-              {loading && pages.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-28 text-muted-foreground gap-2">
-                  <Loader2 className="h-6 w-6 animate-spin" />
-                  <span className="text-xs">Rendering A4 preview…</span>
-                </div>
-              ) : (
-                pages.map((p, idx) => (
-                  <div key={idx} className="relative w-full max-w-[520px] bg-white shadow-page rounded-[2px] overflow-hidden">
-                    <img src={p.dataUrl} alt={`Page ${idx + 1}`} className="w-full h-auto block" />
-                    {loading && (
-                      <div className="absolute inset-0 bg-white/40 flex items-center justify-center">
-                        <Loader2 className="h-5 w-5 animate-spin text-primary" />
-                      </div>
-                    )}
+          <div className="flex flex-col max-h-[90dvh]">
+            <div className="grid md:grid-cols-[1fr_290px] flex-1 min-h-0 overflow-y-auto md:overflow-hidden">
+              {/* Left: Live rendered A4 PDF */}
+              <div className="bg-slate-100/90 p-4 sm:p-7 md:overflow-y-auto thin-scroll flex flex-col items-center gap-5">
+                {loading && pages.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-24 text-muted-foreground gap-2">
+                    <Loader2 className="h-6 w-6 animate-spin" />
+                    <span className="text-xs">Rendering A4 preview…</span>
                   </div>
-                ))
-              )}
-            </div>
+                ) : (
+                  pages.map((p, idx) => (
+                    <div key={idx} className="relative w-full max-w-[520px] bg-white shadow-page rounded-[2px] overflow-hidden">
+                      <img src={p.dataUrl} alt={`Page ${idx + 1}`} className="w-full h-auto block" />
+                      {loading && (
+                        <div className="absolute inset-0 bg-white/40 flex items-center justify-center">
+                          <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                        </div>
+                      )}
+                    </div>
+                  ))
+                )}
+              </div>
 
-            {/* Right: Metadata + quick customize + CTA */}
-            <div className="p-6 flex flex-col justify-between gap-6 border-t md:border-t-0 md:border-l border-border bg-background overflow-y-auto">
-              <div className="space-y-5">
+              {/* Right: Metadata + quick customize */}
+              <div className="p-5 sm:p-6 flex flex-col gap-5 border-t md:border-t-0 md:border-l border-border bg-background md:overflow-y-auto">
                 <DialogHeader>
                   <div className="flex flex-wrap gap-1.5 mb-2">
                     {template.categories.map((cat) => (
@@ -150,16 +150,17 @@ export function TemplatePreviewModal({ template, onClose, onUseTemplate }: Templ
                   </div>
                 )}
               </div>
+            </div>
 
-              <div className="space-y-2.5 pt-2 border-t border-border">
-                <Button className="w-full" size="lg" onClick={() => onUseTemplate(template.id, color)}>
-                  Use This Template
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-                <p className="text-[11px] text-center text-muted-foreground">
-                  You can switch templates anytime without losing your data.
-                </p>
-              </div>
+            {/* Sticky Bottom Bar — always visible at the bottom of the preview on mobile & desktop */}
+            <div className="shrink-0 border-t border-border bg-background/95 backdrop-blur-md px-4 sm:px-6 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <p className="hidden sm:block text-xs text-muted-foreground">
+                Like <span className="font-medium text-foreground">{template.name}</span>? Start editing now — you can switch templates anytime.
+              </p>
+              <Button className="w-full sm:w-auto sm:min-w-[220px]" size="lg" onClick={() => onUseTemplate(template.id, color)}>
+                Use This Template
+                <ArrowRight className="h-4 w-4" />
+              </Button>
             </div>
           </div>
         )}

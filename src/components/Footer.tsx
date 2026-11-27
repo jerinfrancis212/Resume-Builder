@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BrandLogo } from './Navbar';
+import { MobileBottomNav } from './MobileBottomNav';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 type LegalDoc = 'about' | 'contact' | 'privacy' | 'terms' | null;
@@ -44,7 +45,8 @@ export function Footer() {
   const [doc, setDoc] = useState<LegalDoc>(null);
 
   return (
-    <footer className="border-t border-border bg-secondary/30">
+    <>
+      <footer className="border-t border-border bg-secondary/30 pb-20 md:pb-0">
       <div className="container py-12">
         <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
           <div className="space-y-2">
@@ -100,5 +102,7 @@ export function Footer() {
         </DialogContent>
       </Dialog>
     </footer>
+    <MobileBottomNav />
+    </>
   );
 }

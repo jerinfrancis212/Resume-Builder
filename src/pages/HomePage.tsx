@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import {
   ArrowRight,
   CheckCircle2,
+  ChevronDown,
   Download,
   Eye,
-  FileCheck2,
   Layers,
   LayoutTemplate,
   Smartphone,
@@ -74,10 +74,42 @@ const STEPS = [
   },
 ];
 
+const FAQS = [
+  {
+    q: 'What is a Europass CV and when should I use it?',
+    a: 'A Europass CV is the standardized European curriculum vitae format widely recognized by employers, universities, and visa authorities across Europe—including Germany, Ireland, the Netherlands, Malta, Italy, and France. It organizes your personal details, reverse-chronological work experience, education, digital skills, and CEFR language levels (A1–C2) in a clear, recruiter-friendly A4 layout.',
+  },
+  {
+    q: 'How do I create a Europass CV online with Norvel?',
+    a: 'Select the Europass CV template from the homepage or Template Library, enter your personal details (with optional built-in photo cropping), work experience, education, skills, and CEFR language proficiency, and watch your live A4 PDF update in real time. Once you are happy with the preview, sign in with Google and download your print-ready PDF in seconds.',
+  },
+  {
+    q: 'Are Norvel’s Europass CV and resume templates ATS-friendly?',
+    a: 'Yes. Every CV downloaded from Norvel is generated as a real vector A4 PDF with embedded fonts and 100% selectable text—never a blurry image screenshot. Applicant Tracking Systems (ATS) and European hiring portals can parse your headings, skills, and work history accurately.',
+  },
+  {
+    q: 'Can I build and download my CV on a mobile phone?',
+    a: 'Absolutely. Norvel is designed with a mobile-app workspace featuring bottom tab navigation (Edit CV, Templates, Design, Live Preview), touch-friendly photo cropping, and auto-fit A4 zoom so you can create a complete Europass CV or resume right from your smartphone.',
+  },
+  {
+    q: 'Can I switch between the Europass CV and other resume templates without losing data?',
+    a: 'Yes. You can switch freely between the Europass CV and any of our other 12 modern, minimal, executive, creative, technical, or academic templates at any time—all of your entered information stays intact.',
+  },
+  {
+    q: 'Is Norvel free to use, and how much does PDF download cost?',
+    a: 'Creating, editing, customizing, switching templates, and previewing your live A4 resume is completely free with no sign-up required to start. When your final CV is ready, you can unlock high-resolution A4 PDF download for a special offer price of ₹49 (51% OFF ₹99), with free re-downloads of that exact version anytime.',
+  },
+  {
+    q: 'What details should I include in a strong European or international CV?',
+    a: 'Include your full name, target job title, reachable email and phone number, city/country, an optional professional headshot, a concise 2–3 line profile summary, reverse-chronological work experience with measurable achievements, education, key skills, and your language proficiency using CEFR levels (e.g., English C1, German B2).',
+  },
+];
+
 export function HomePage() {
   const navigate = useNavigate();
   const { createResume, updateCustomization } = useResumeStore();
   const [previewTpl, setPreviewTpl] = useState<TemplateMeta | null>(null);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const showcase = SHOWCASE_IDS.map((id) => TEMPLATES.find((t) => t.id === id)!).filter(Boolean);
 
@@ -95,22 +127,34 @@ export function HomePage() {
       <main className="flex-1">
         {/* Hero */}
         <section className="border-b border-border/70 bg-gradient-to-b from-secondary/40 via-background to-background">
-          <div className="container py-16 sm:py-24">
+          <div className="container py-12 sm:py-22">
             <div className="mx-auto max-w-3xl text-center">
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-background px-3.5 py-1 text-xs font-medium text-muted-foreground shadow-soft">
-                <FileCheck2 className="h-3.5 w-3.5 text-primary" />
-                13 A4 PDF Templates · ATS-Friendly · No Sign-Up Required to Start
-              </div>
+              {/* Crisp single-line Europass CV highlight pill (mobile-optimized) */}
+              <button
+                type="button"
+                onClick={() => startWithTemplate('europass')}
+                className="group mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-[#003399]/25 bg-background pl-1.5 pr-3.5 py-1 text-xs font-medium text-foreground shadow-soft transition-all hover:border-[#003399]/50 hover:shadow-lift active:scale-[0.99]"
+              >
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#003399] px-2.5 py-0.5 text-[11px] font-semibold text-white shrink-0">
+                  <EuFlagIcon className="h-2.5 w-3.5" />
+                  Europass CV
+                </span>
+                <span className="truncate text-muted-foreground group-hover:text-foreground transition-colors">
+                  Official EU Style · 13 ATS Templates
+                </span>
+                <ArrowRight className="h-3.5 w-3.5 text-[#003399] shrink-0 transition-transform group-hover:translate-x-0.5" />
+              </button>
 
-              <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-foreground leading-[1.12]">
-                Build a Professional Resume That Gets You Noticed
+              <h1 className="text-3xl sm:text-5xl font-semibold tracking-tight text-foreground leading-[1.12]">
+                Build a Professional Resume &amp;{' '}
+                <span className="text-[#003399]">Europass CV</span> That Gets You Noticed
               </h1>
 
-              <p className="mt-5 text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-                Choose a professional template, add your details, and create a job-ready resume in minutes.
+              <p className="mt-4 sm:mt-5 text-sm sm:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+                Create a job-ready <strong className="font-medium text-foreground">Europass CV</strong> or choose from 13 professional ATS-friendly templates, add your details, and download a crisp A4 PDF in minutes.
               </p>
 
-              <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+              <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
                 <Button size="lg" className="w-full sm:w-auto px-7" onClick={() => navigate('/templates')}>
                   Create My Resume
                   <ArrowRight className="h-4 w-4" />
@@ -241,6 +285,65 @@ export function HomePage() {
               ))}
             </div>
           </div>
+        </section>
+
+        {/* SEO-Optimized FAQ Section (Europass CV & Online CV Creator) */}
+        <section id="faq" className="border-t border-border/80 bg-secondary/25 py-16 sm:py-20">
+          <div className="container max-w-3xl">
+            <div className="text-center mb-10">
+              <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-2">Frequently Asked Questions</p>
+              <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">
+                Europass CV &amp; Online Resume Builder Guide
+              </h2>
+              <p className="mt-2.5 text-sm text-muted-foreground">
+                Everything you need to know about creating an ATS-friendly Europass CV and job-ready PDF resume on Norvel.
+              </p>
+            </div>
+
+            <div className="divide-y divide-border rounded-2xl border border-border bg-background shadow-soft overflow-hidden">
+              {FAQS.map((item, idx) => {
+                const isOpen = openFaq === idx;
+                return (
+                  <div key={item.q}>
+                    <button
+                      type="button"
+                      onClick={() => setOpenFaq(isOpen ? null : idx)}
+                      aria-expanded={isOpen}
+                      className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-secondary/40"
+                    >
+                      <span className="text-sm sm:text-[15px] font-medium text-foreground leading-snug">{item.q}</span>
+                      <ChevronDown
+                        className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200 ${
+                          isOpen ? 'rotate-180 text-primary' : ''
+                        }`}
+                      />
+                    </button>
+                    {isOpen && (
+                      <div className="px-5 pb-4 text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                        {item.a}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* FAQPage Structured Data for Google SEO */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'FAQPage',
+                mainEntity: FAQS.map((f) => ({
+                  '@type': 'Question',
+                  name: f.q,
+                  acceptedAnswer: { '@type': 'Answer', text: f.a },
+                })),
+              }),
+            }}
+          />
         </section>
 
         {/* Bottom CTA */}

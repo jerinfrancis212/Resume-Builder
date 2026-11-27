@@ -104,14 +104,14 @@ export function Navbar() {
           <Button
             size="sm"
             onClick={() => {
-              if (resumes.length > 0) {
-                navigate(`/editor/${resumes[0].id}`);
+              if (pathname === '/' || resumes.length === 0) {
+                navigate('/templates', { state: { pickTemplatePrompt: true } });
               } else {
-                navigate('/templates');
+                navigate(`/editor/${resumes[0].id}`);
               }
             }}
           >
-            {resumes.length > 0 ? 'Open Editor' : 'Create My Resume'}
+            {pathname === '/' || resumes.length === 0 ? 'Create My Resume' : 'Open Editor'}
           </Button>
         </div>
       </div>

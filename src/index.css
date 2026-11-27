@@ -60,3 +60,12 @@
 .thin-scroll::-webkit-scrollbar-thumb:hover {
   background: hsl(220 14% 72%);
 }
+
+/* Hide scrollbars on horizontal mobile pill rails for native app feel */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

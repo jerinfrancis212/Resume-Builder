@@ -44,9 +44,9 @@ export function getSupabaseAdmin(): SupabaseClient {
 
 export function getRazorpayConfig() {
   const keyId = process.env.RAZORPAY_KEY_ID || process.env.VITE_RAZORPAY_KEY_ID;
-  const keySecret = process.env.RAZORPAY_KEY_SECRET;
+  const keySecret = process.env.RAZORPAY_KEY_SECRET || process.env.RAZORPAY_SECRET_KEY;
   if (!keyId || !keySecret) {
-    throw new Error('Server misconfigured: VITE_RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET are required.');
+    throw new Error('Server misconfigured: RAZORPAY_KEY_ID and RAZORPAY_KEY_SECRET are required.');
   }
   return { keyId, keySecret };
 }

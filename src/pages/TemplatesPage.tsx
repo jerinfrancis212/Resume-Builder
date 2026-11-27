@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowRight, Eye, Search, Sparkles, X } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
@@ -29,6 +29,8 @@ export function EuFlagIcon({ className }: { className?: string }) {
 
 export function TemplatesPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const pickTemplatePrompt = Boolean((location.state as { pickTemplatePrompt?: boolean } | null)?.pickTemplatePrompt);
   const { createResume, updateCustomization } = useResumeStore();
   const [category, setCategory] = useState<'All' | TemplateCategory>('All');
   const [query, setQuery] = useState('');
@@ -63,6 +65,12 @@ export function TemplatesPage() {
       <main className="flex-1">
         <section className="border-b border-border/80 bg-secondary/30">
           <div className="container py-12 sm:py-14">
+            {pickTemplatePrompt && (
+              <div className="mb-6 flex items-center gap-2.5 rounded-xl border border-primary/25 bg-primary/5 px-4 py-3 text-sm text-primary">
+                <Sparkles className="h-4 w-4 shrink-0" />
+                <span className="font-medium">Select a CV template below to start editing your resume.</span>
+              </div>
+            )}
             <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
               <div className="max-w-2xl">
                 <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-2">Resume Template Library</p>
