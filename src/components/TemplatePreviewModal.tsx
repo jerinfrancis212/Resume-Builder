@@ -56,10 +56,10 @@ export function TemplatePreviewModal({ template, onClose, onUseTemplate }: Templ
     <Dialog open={template !== null} onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="max-w-4xl p-0 overflow-hidden gap-0">
         {template && (
-          <div className="flex flex-col max-h-[90dvh]">
+          <div className="flex flex-col max-h-[90dvh] md:h-[88dvh]">
             <div className="grid md:grid-cols-[1fr_290px] flex-1 min-h-0 overflow-y-auto md:overflow-hidden">
-              {/* Left: Live rendered A4 PDF */}
-              <div className="bg-slate-100/90 p-4 sm:p-7 md:overflow-y-auto thin-scroll flex flex-col items-center gap-5">
+              {/* Left: Live rendered A4 PDF (full A4 height, scrollable) */}
+              <div className="bg-slate-100/90 p-4 sm:p-7 md:overflow-y-auto thin-scroll flex flex-col items-center gap-6">
                 {loading && pages.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-24 text-muted-foreground gap-2">
                     <Loader2 className="h-6 w-6 animate-spin" />
@@ -67,12 +67,19 @@ export function TemplatePreviewModal({ template, onClose, onUseTemplate }: Templ
                   </div>
                 ) : (
                   pages.map((p, idx) => (
-                    <div key={idx} className="relative w-full max-w-[520px] bg-white shadow-page rounded-[2px] overflow-hidden">
-                      <img src={p.dataUrl} alt={`Page ${idx + 1}`} className="w-full h-auto block" />
-                      {loading && (
-                        <div className="absolute inset-0 bg-white/40 flex items-center justify-center">
-                          <Loader2 className="h-5 w-5 animate-spin text-primary" />
-                        </div>
+                    <div key={idx} className="w-full max-w-[520px] shrink-0 flex flex-col items-center gap-2">
+                      <div className="relative w-full aspect-[210/297] bg-white shadow-page rounded-[2px] ring-1 ring-slate-900/5 overflow-hidden">
+                        <img src={p.dataUrl} alt={`Page ${idx + 1}`} className="h-full w-full object-contain block" />
+                        {loading && (
+                          <div className="absolute inset-0 bg-white/40 flex items-center justify-center">
+                            <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                          </div>
+                        )}
+                      </div>
+                      {pages.length > 1 && (
+                        <span className="text-[11px] font-medium text-muted-foreground">
+                          Page {idx + 1} of {pages.length}
+                        </span>
                       )}
                     </div>
                   ))
