@@ -6,6 +6,7 @@ import { TemplatesPage } from '@/pages/TemplatesPage';
 import { EditorPage } from '@/pages/EditorPage';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { AuthModal } from '@/components/AuthModal';
+import { InAppBrowserBanner } from '@/components/InAppBrowserBanner';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useResumeStore } from '@/store/useResumeStore';
 
@@ -24,6 +25,7 @@ export function App() {
 
   return (
     <BrowserRouter>
+      <InAppBrowserBanner />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/templates" element={<TemplatesPage />} />

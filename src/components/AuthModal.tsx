@@ -1,8 +1,10 @@
-import { useState } from 'react';
-import { AlertCircle, ArrowRight, Cloud, Download, Loader2, ShieldCheck } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { AlertCircle, ArrowRight, Check, Cloud, Copy, Download, ExternalLink, Loader2, ShieldCheck } from 'lucide-react';
+import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useAuthStore } from '@/store/useAuthStore';
 import { isSupabaseConfigured } from '@/lib/supabase/client';
+import { copyCurrentUrl, detectInAppBrowser, openInAndroidChrome } from '@/lib/inAppBrowser';
 
 const PERKS = [
   {
@@ -27,6 +29,17 @@ export function AuthModal() {
   const isDownloadGate = authModalMode === 'download';
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+  const inApp = useMemo(() => detectInAppBrowser(), []);
+
+  const handleCopyLink = async () => {
+    const ok = await copyCurrentUrl();
+    if (ok) {
+      setCopied(true);
+      toast.success('Link copied! Paste it into Safari or Chrome for 1-tap Google login.');
+      setTimeout(() => setCopied(false), 2500);
+    }
+  };
 
   const handleGoogle = async () => {
     setError(null);
@@ -82,6 +95,51 @@ export function AuthModal() {
                 <code className="rounded bg-amber-100 px-1 py-0.5 font-mono">VITE_SUPABASE_ANON_KEY</code> to{' '}
                 <code className="rounded bg-amber-100 px-1 py-0.5 font-mono">.env</code>.
               </p>
+            </div>
+          )}
+
+          {/* In-App Browser (Instagram / Facebook / TikTok) Breakout Guidance */}
+          {inApp.isInApp && (
+            <div className="rounded-xl border border-primary/25 bg-primary/[0.05] p-4 space-y-3">
+              <div className="space-y-1">
+                <p className="text-xs font-semibold text-primary flex items-center gap-1.5">
+                  <ExternalLink className="h-3.5 w-3.5 shrink-0" />
+                  Open in {inApp.platform === 'ios' ? 'Safari' : 'Chrome'} for 1-tap Google Login
+                </p>
+                <p className="text-[11.5px] text-muted-foreground leading-relaxed">
+                  {inApp.appName ? `${inApp.appName}’s` : 'This'} built-in browser doesn’t share your saved Google account, so it asks for your email &amp; password manually.
+                </p>
+              </div>
+
+              {inApp.platform === 'android' ? (
+                <button
+                  type="button"
+                  onClick={() => openInAndroidChrome()}
+                  className="flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 text-xs font-semibold text-primary-foreground shadow-soft hover:bg-primary/90 active:scale-[0.99] transition-all"
+                >
+                  <ExternalLink className="h-3.5 w-3.5" />
+                  Open in Chrome (No Password Needed)
+                </button>
+              ) : (
+                <div className="space-y-2.5">
+                  <ol className="space-y-1 text-[11.5px] text-foreground/90 pl-4 list-decimal">
+                    <li>
+                      Tap <strong>•••</strong> at the top-right corner of {inApp.appName || 'the app'}
+                    </li>
+                    <li>
+                      Select <strong>Open in external browser</strong> (Safari)
+                    </li>
+                  </ol>
+                  <button
+                    type="button"
+                    onClick={handleCopyLink}
+                    className="flex h-9 w-full items-center justify-center gap-1.5 rounded-lg border border-primary/30 bg-background px-3 text-xs font-medium text-primary hover:bg-primary/5 active:scale-[0.99] transition-all"
+                  >
+                    {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+                    {copied ? 'Link Copied — Paste in Safari' : 'Or Copy Link to Open in Safari'}
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
