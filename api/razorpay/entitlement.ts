@@ -1,4 +1,4 @@
-import { authenticateRequest, getSupabaseAdmin, sendJson, type ApiReq, type ApiRes } from './_shared';
+import { authenticateRequest, getSupabaseAdmin, sendJson, type ApiReq, type ApiRes } from './_shared.js';
 
 export default async function handler(req: ApiReq, res: ApiRes) {
   if (req.method !== 'GET') {

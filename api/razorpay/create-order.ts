@@ -9,7 +9,7 @@ import {
   sendJson,
   type ApiReq,
   type ApiRes,
-} from './_shared';
+} from './_shared.js';
 
 interface RazorpayOrderResponse {
   id: string;

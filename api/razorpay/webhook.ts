@@ -8,7 +8,7 @@ import {
   verifyHmacSha256,
   type ApiReq,
   type ApiRes,
-} from './_shared';
+} from './_shared.js';
 
 /** Disable automatic body parsing so we verify the signature against the exact raw bytes. */
 export const config = {
